@@ -1,16 +1,10 @@
 import streamlit as st
-
 from functions.functions import handle_configure_click
 
-from pages.configure import show_page as configure_page
-from pages.results import show_page as results_page
+if "page" not in st.session_state:
+    st.session_state.page = "configure_page"
 
-PAGES = {
-    "configure_page": configure_page,
-    "results_page": results_page
-}
-
-def main():
+def configure_page():
     st.markdown("## Submit Job Posting ⚡")
     interview_guide = ""
 
@@ -21,6 +15,15 @@ def main():
 
     if not interview_guide == "":
         st.write(interview_guide)
+
+
+
+
+def main():
+
+    if st.session_state.page == "configure_page":
+        configure_page()
+
 
 
 
