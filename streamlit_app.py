@@ -1,15 +1,28 @@
 import streamlit as st
 
+from functions.functions import handle_configure_click
+
+from pages.configure import show_page as configure_page
+from pages.results import show_page as results_page
+
 PAGES = {
-    "Page 1": page_one,
-    "Page 2": page_two
+    "configure_page": configure_page,
+    "results_page": results_page
 }
 
 def main():
-    st.sidebar.title('Navigation')
-    selection = st.sidebar.radio("Go to", list(PAGES.keys()))
-    page = PAGES[selection]
-    page()
+    st.markdown("## Submit Job Posting ⚡")
+    interview_guide = ""
+
+    job_description = st.text_area("Job description")
+    if st.button("Submit"):
+        st.spinner("Submitting job description...")
+        handle_configure_click()
+
+    if not interview_guide == "":
+        st.write(interview_guide)
+
+
 
 if __name__ == "__main__":
     main()
