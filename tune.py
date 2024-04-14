@@ -131,7 +131,7 @@ def assess_call(
 
 
 def main():
-    run_get_questions = False
+    run_get_questions = True
 
     job_description = "We are looking for a software engineer to join our team. The ideal candidate should have experience with Python, Java, and C++. The candidate should also have experience with machine learning and data science."
     behavior_characteristics = (
