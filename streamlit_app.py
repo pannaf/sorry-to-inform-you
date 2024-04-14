@@ -1,11 +1,11 @@
 import streamlit as st
 from functions.functions import handle_configure_click
 
+
 if "page" not in st.session_state:
     st.session_state.page = "configure_page"
 
 def configure_page():
-
     if "button_state_disabled" not in st.session_state:
         st.session_state['button_state_disabled'] = True
 
@@ -15,7 +15,7 @@ def configure_page():
     if "candidate_name" not in st.session_state:
         st.session_state['candidate_name'] = None
 
-    st.markdown("## Submit Job Posting ⚡")
+    st.markdown("## Submit Job Possdfdsting ⚡")
     interview_guide = ""
 
     job_description = st.text_area("Job description")
@@ -41,23 +41,19 @@ def configure_page():
 
     if st.button("Submit", disabled=st.session_state.button_state_disabled):
         st.spinner("Submitting job description...")
-        handle_configure_click()
-
+        interview_questions = handle_configure_click()
 
 
     if not interview_guide == "":
         st.write(interview_guide)
 
 
-
+def results_page():
+    st.markdown("## Interview Results ⚡")
 
 def main():
-
     if st.session_state.page == "configure_page":
         configure_page()
-
-
-
 
 
 if __name__ == "__main__":
