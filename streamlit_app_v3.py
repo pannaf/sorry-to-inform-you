@@ -56,19 +56,6 @@ We are looking for a highly skilled and experienced ML Engineer to join our team
         st.session_state.call_id = place_call(f"+1{st.session_state.phone}", interview_questions, job_description=job_description)
         st.session_state.call_placed = bool(st.session_state.call_id)
 
-    # st.button(
-    #     "Get feedback",
-    #     on_click=fetch_feedback,
-    #     args=[job_description, behavioral_requirements],
-    #     disabled=not st.session_state.call_placed,
-    # )
-    # if st.session_state.call_placed:
-    #     st.button(
-    #         "Get feedback",
-    #         on_click=fetch_feedback,
-    #         args=[job_description, behavioral_requirements],
-    #         disabled=not st.session_state.call_placed,
-    #     )
     feedback_button = st.empty()
     feedback_placeholder = st.empty()
     transcript_placeholder = st.empty()
