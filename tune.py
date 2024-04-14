@@ -1,21 +1,20 @@
 import os
+import json
+import textwrap
 
 from dotenv import load_dotenv
 from langchain_community.llms import OpenAI
 from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts.chat import ChatPromptTemplate
 from langchain.schema import BaseOutputParser
-import json
 
-from mock_data import BEHAVIORS, JOB_DESCRIPTIONS
+from mock_data import BEHAVIORS, JOB_DESCRIPTIONS, MOCK_TRANSCRIPT
 
 behaviors = [behavior for behavior in BEHAVIORS.values()]
 job_descriptions = [desc for desc in JOB_DESCRIPTIONS.values()]
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Get the API key from environment variables
 openai_api_key = os.getenv("TUNE_API_KEY")
 
 
@@ -27,35 +26,40 @@ mixtral_model = ChatOpenAI(
     model_kwargs={"response_format": {"type": "json_object"}},
 )
 
-# Define a user message and a system message
-user_message = "hi!"
-interview_guidelines_system_message = """Can you generate 6 interview questions for me based on the job description and behavioral characteristics provided? Do 3 questions for each.
+interview_guidelines_system_message = textwrap.dedent(
+    """Can you generate 6 interview questions for me based on the job description and behavioral characteristics provided?
+    Do 3 questions for each.
 
-The expected output format is the following JSON output:
-```json
-{{
-    "job questions": ["question1", "question2", "question3"]
-    "behavior questions": ["question1", "question2", "question3"]
-}}
-```
-Very important: only return the json and nothing else.
-"""
+    The expected output format is the following JSON output:
+    ```json
+    {{
+        "job questions": ["question1", "question2", "question3"]
+        "behavior questions": ["question1", "question2", "question3"]
+    }}
+    ```
+    Very important: only return the JSON and nothing else.
+    """
+)
 
-call_assessment_system_message = """Can you assess the call and provide feedback on how it went?
-The expected output format is the following JSON output:
-```json
-{{
-    "feedback": <str>, # what feedback you would give the candidate 
-    "recommendation": <bool>, # whether to recommend the candidate
-    "reason": <str> # reason for the recommendation
-    "top relevant skills": <list>, # top relevant skills of the candidate for the job
-    "potential skill gaps": <list>, # potential skill gaps of the candidate for the job
-    "enthusiasm": <int> # enthusiasm level of the candidate for the job, 1-5 scale
-    "job fit": <int>, # how well the candidate fits the job description, 1-5 scale
-    "communication": <int>, # how well the candidate communicated, 1-5 scale
-}}
-Very important: only return the json and nothing else.
-"""
+call_assessment_system_message = textwrap.dedent(
+    """Can you assess the call and provide feedback on how it went? You are looking for great candidates.
+    Be selective in your feedback and provide a recommendation based on the call transcript, job description, and behavior
+    characteristics provided.
+    The expected output format is the following JSON output:
+    ```json
+    {{
+        "feedback": <str>, # what feedback you would give the candidate 
+        "recommendation": <bool>, # whether to recommend the candidate
+        "reason": <str> # reason for the recommendation
+        "top relevant skills": <list>, # top relevant skills of the candidate for the job
+        "potential skill gaps": <list>, # potential skill gaps of the candidate for the job
+        "enthusiasm": <int> # enthusiasm level of the candidate for the job, 1-5 scale
+        "job fit": <int>, # how well the candidate fits the job description, 1-5 scale
+        "communication": <int>, # how well the candidate communicated, 1-5 scale
+    }}
+    Very important: only return the JSON and nothing else.
+    """
+)
 
 
 class JSONObjectOutputParser(BaseOutputParser):
@@ -70,15 +74,15 @@ class JSONObjectOutputParser(BaseOutputParser):
             return str(text)
 
 
-#  def create_teller_ai_prompt(questions: list, )
-
-
 def get_questions(
     llm_model, message="what questions do you have for me?", system_message=None, job_description=None, behavior_characteristics=None
 ):
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", "{system_message} + {job_description} + {behavior_characteristics}"),
+            (
+                "system",
+                "{system_message}\n---------\nJob description:\n{job_description}\n---------\nDesired behavior characteristics:\n{behavior_characteristics}",
+            ),
             ("human", "{text}"),
         ]
     )
@@ -95,10 +99,20 @@ def get_questions(
     return response
 
 
-def assess_call(llm_model, message="how did the call go?", system_message=None, call_transcript=None):
+def assess_call(
+    llm_model,
+    message="how did the call go?",
+    system_message=None,
+    call_transcript=None,
+    job_description=None,
+    behavior_characteristics=None,
+):
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", "{system_message} + {call_transcript}"),
+            (
+                "system",
+                "{system_message}\n--------\nCall transcript:\n{call_transcript}\n--------\nJob descriptions:{job_description}\n---------\nDesired behavior characteristics:\n{behavior_characteristics}",
+            ),
             ("human", "{text}"),
         ]
     )
@@ -109,6 +123,8 @@ def assess_call(llm_model, message="how did the call go?", system_message=None, 
             "text": message,
             "system_message": system_message,
             "call_transcript": call_transcript,
+            "job_description": job_description,
+            "behavior_characteristics": behavior_characteristics,
         }
     )
     return response
@@ -153,6 +169,26 @@ def main():
             results.append(questions)
 
         print(results)
+
+    good_call_assessment = assess_call(
+        mixtral_model,
+        message="how did the call go?",
+        system_message=call_assessment_system_message,
+        call_transcript=MOCK_TRANSCRIPT["retail_worker"]["good"],
+    )
+
+    bad_call_assessment = assess_call(
+        mixtral_model,
+        message="how did the call go?",
+        system_message=call_assessment_system_message,
+        call_transcript=MOCK_TRANSCRIPT["retail_worker"]["bad"],
+    )
+
+    print("GOOD CALL ASSESSMENT")
+    print(good_call_assessment)
+
+    print("BAD CALL ASSESSMENT")
+    print(bad_call_assessment)
 
 
 if __name__ == "__main__":
