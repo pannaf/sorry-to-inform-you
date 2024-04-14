@@ -47,7 +47,7 @@ def place_call(to_number, questions):
         to_number=to_number,
         override_agent_id="54acd2222d71f6dd297c81730f8d27a1",
     )
-    return call.agent_id
+    return call.call_id
 
 
 # place_call(number_test)
