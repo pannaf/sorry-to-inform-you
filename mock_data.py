@@ -71,9 +71,32 @@ Question: Can you describe a situation where you had to work with a coworker to 
 Answer: In a recent inventory audit, I partnered with a coworker to systematically check and record stock levels. I took the lead on organizing the workflow and double-checking entries, which not only streamlined the process but ensured accuracy, helping us finish ahead of schedule with excellent results.
 """
 
-MOCK_TRANASCRIPT["retail_worker"][
+MOCK_TRANSCRIPT["retail_worker"][
     "bad"
 ] = """
+Question: Can you describe a time when you successfully upsold a product to a customer? How did you approach the situation and what was the outcome?
+
+Answer: Well, I tried to sell an expensive blender to a customer who was looking at cheaper models, but they were not interested and seemed annoyed by the suggestion. They ended up buying the cheapest one without any add-ons.
+
+Question: Tell me about a time when you had to handle a difficult customer situation. How did you manage it and what was the result?
+
+Answer: There was a customer complaining loudly about a return policy, and I found it really challenging to keep calm. I ended up calling my manager to deal with it because it was getting too stressful for me to handle.
+
+Question: How do you stay organized and manage your tasks throughout the day while working in a retail environment?
+
+Answer: Staying organized is tough for me; I often forget where things go and what I was supposed to do next. I try to write things down, but I still end up getting sidetracked a lot, especially when it's busy.
+
+Question: Can you provide an example of a time when you demonstrated patience and understanding with a customer? How did you handle the situation?
+
+Answer: Once a customer kept asking a lot of questions about products that I wasn't familiar with, and it was hard to keep my patience. I just tried to answer best as I could but eventually suggested they check online for more details.
+
+Question: How do you approach engaging and welcoming customers as they enter the store?
+
+Answer: I'm usually busy with tasks, so I might not notice new customers right away. When I do, I give a quick hello if they're close by, but I don't usually go out of my way unless they seem like they need help.
+
+Question: Can you describe a situation where you had to work with a coworker to accomplish a goal? What was your role and how did you contribute to the success of the task?
+
+Answer: We had to set up a promotional display once, and I tried to help, but I wasn't sure what to do, so I mostly let my coworker handle it. I handed them things when they asked, but I didn't really get involved much.
 
 """
 
