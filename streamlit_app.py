@@ -1,4 +1,5 @@
 from retell import Retell
+import os
 import streamlit as st
 from functions.functions import handle_configure_click
 from calls import place_call
@@ -13,11 +14,17 @@ def configure_page():
     if "button_state_disabled" not in st.session_state:
         st.session_state["button_state_disabled"] = True
 
+    if "transcript_button" not in st.session_state:
+        st.session_state["transcript_button"] = True
+
     if "phone" not in st.session_state:
         st.session_state["phone"] = None
 
     if "candidate_name" not in st.session_state:
         st.session_state["candidate_name"] = None
+
+    if "call_id" not in st.session_state:
+        st.session_state["call_id"] = None
 
     st.markdown("## Submit Job Posting ⚡")
     interview_guide = ""
@@ -58,18 +65,18 @@ def configure_page():
     if st.button("Submit", disabled=st.session_state.button_state_disabled):
         st.spinner("Submitting job description...")
         interview_questions = handle_configure_click(job_description, behavioral_requirements)
-        call_id = place_call(f"+1{st.session_state.phone}", interview_questions)
+        st.session_state.call_id = place_call(f"+1{st.session_state.phone}", interview_questions)
 
-        import time
-        import os
+    if st.session_state.call_id is not None:
+        st.session_state.transcript_button = False
 
-        time.sleep(60)
-
+    if st.button("Get feedback", disabled=st.session_state.transcript_button):
         client = Retell(api_key=os.getenv("RETELL_API_KEY"))
-        call = client.call.retrieve(call_id)
+        call = client.call.retrieve(st.session_state.call_id)
         print(call.agent_id)
 
         transcript = call.transcript
+        print(transcript)
         st.write(transcript)
 
         assistant = InterviewAssistant()
