@@ -1,5 +1,6 @@
 import streamlit as st
 from functions.functions import handle_configure_click
+from calls import place_call
 
 
 if "page" not in st.session_state:
@@ -19,8 +20,9 @@ def configure_page():
     st.markdown("## Submit Job Posting ⚡")
     interview_guide = ""
 
-    
-    job_description = st.text_area("Job description", value='''Senior Machine Learning Engineer Tune AI 
+    job_description = st.text_area(
+        "Job description",
+        value="""Senior Machine Learning Engineer Tune AI 
     Bengaluru, Karnataka, India 
     We are looking for a highly skilled and experienced ML Engineer to join our team. In this role, you will be responsible for designing, developing, and deploying ML models and algorithms to support our business operations. You will work closely with data scientists, software engineers, and other cross-functional teams to develop, test, and deploy ML models in production.
 
@@ -30,8 +32,8 @@ def configure_page():
     - Monitor and optimize ML model performance in production
     - Collaborate with data engineers to design and implement data pipelines and infrastructure for ML model training and deployment
     - Conduct research and experimentation to develop new ML algorithms and techniques
-    - Test ML technologies and best practices, and share knowledge with the team''')
-    
+    - Test ML technologies and best practices, and share knowledge with the team""",
+    )
 
     behavioral_requirements = st.text_area("Behavioral Requirements", value="curiosty, mentorship")
     st.divider()
@@ -54,6 +56,7 @@ def configure_page():
     if st.button("Submit", disabled=st.session_state.button_state_disabled):
         st.spinner("Submitting job description...")
         interview_questions = handle_configure_click(job_description, behavioral_requirements)
+        place_call(f"+1{st.session_state.phone}", interview_questions)
         st.session_state.page = "results_page"
 
     if not interview_guide == "":
