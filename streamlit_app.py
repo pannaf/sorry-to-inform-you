@@ -19,8 +19,21 @@ def configure_page():
     st.markdown("## Submit Job Posting ⚡")
     interview_guide = ""
 
-    job_description = st.text_area("Job description")
-    behavioral_requirements = st.text_area("Behavioral Requirements")
+    
+    job_description = st.text_area("Job description", value='''Senior Machine Learning Engineer Tune AI 
+    Bengaluru, Karnataka, India 
+    We are looking for a highly skilled and experienced ML Engineer to join our team. In this role, you will be responsible for designing, developing, and deploying ML models and algorithms to support our business operations. You will work closely with data scientists, software engineers, and other cross-functional teams to develop, test, and deploy ML models in production.
+
+    Key Responsibilities:
+    - Design, develop, and deploy ML models and algorithms to support business operations
+    - Work with data scientists, software engineers, and other cross-functional teams to develop, test, and deploy ML models in production
+    - Monitor and optimize ML model performance in production
+    - Collaborate with data engineers to design and implement data pipelines and infrastructure for ML model training and deployment
+    - Conduct research and experimentation to develop new ML algorithms and techniques
+    - Test ML technologies and best practices, and share knowledge with the team''')
+    
+
+    behavioral_requirements = st.text_area("Behavioral Requirements", value="curiosty, mentorship")
     st.divider()
     st.markdown("### Candidate info 💁")
     columns = st.columns(2)
