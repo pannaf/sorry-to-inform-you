@@ -1,7 +1,7 @@
 openai==1.17.1
 openai-whisper==20231117
-langchain-community==0.0.32
-langchain==0.1.16
+langchain-community
+langchain
 python-dotenv==1.0.1
 
 altair==5.3.0
@@ -21,7 +21,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
 numpy==1.26.4
-packaging==24.0
+packaging
 pandas==2.2.2
 pillow==10.3.0
 protobuf==4.25.3
