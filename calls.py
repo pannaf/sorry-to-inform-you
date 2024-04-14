@@ -20,3 +20,9 @@ def get_transcript(call_id):
     client = Retell(api_key=os.getenv("RETELL_API_KEY"))
     call = client.call.retrieve("119c3f8e47135a29e65947eeb34cf12d", )
     return call.transcript
+
+
+def update_llm(prompt):
+    client = Retell()
+    llm = client.llm.update("16b980523634a6dc504898cda492e939", )
+    print(llm.llm_id)
