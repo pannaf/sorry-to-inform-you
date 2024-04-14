@@ -1,3 +1,9 @@
+openai==1.17.1
+openai-whisper==20231117
+langchain-community==0.0.32
+langchain==0.1.16
+python-dotenv==1.0.1
+
 altair==5.3.0
 attrs==23.2.0
 blinker==1.7.0
@@ -26,6 +32,7 @@ python-dateutil==2.9.0.post0
 pytz==2024.1
 referencing==0.34.0
 requests==2.31.0
+retell-sdk==3.5.0
 rich==13.7.1
 rpds-py==0.18.0
 six==1.16.0
