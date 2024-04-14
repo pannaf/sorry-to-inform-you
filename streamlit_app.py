@@ -19,6 +19,7 @@ def configure_page():
     interview_guide = ""
 
     job_description = st.text_area("Job description")
+    behavioral_requirements = st.text_area("Behavioral Requirements")
     st.divider()
     st.markdown("### Candidate info 💁")
     columns =  st.columns(2)
