@@ -53,29 +53,39 @@ def configure_page():
 
     if st.button("Submit", disabled=st.session_state.button_state_disabled):
         st.spinner("Submitting job description...")
-        interview_questions = handle_configure_click()
-
-        handle_configure_click(job_description, behavioral_requirements)
+        interview_questions = handle_configure_click(job_description, behavioral_requirements)
         st.session_state.page = "results_page"
 
     if not interview_guide == "":
         st.write(interview_guide)
 
 
-feedback = {'feedback': 'The candidate struggled to provide concrete examples of successful upselling and handling difficult customer situations. They also admitted to having difficulty staying organized and engaging with customers proactively. The candidate demonstrated a lack of initiative in collaborative tasks and could benefit from improving their patience and understanding with customers.', 'recommendation': False, 'reason': "The candidate's lack of experience and skills in upselling, customer interaction, and teamwork are concerning for a retail position. They displayed limited enthusiasm for the job and a relatively low job fit score, indicating a potential mismatch for the role.", 'top relevant skills': ['Politeness', 'Availability'], 'potential skill gaps': ['Upselling', 'Customer Service', 'Organization', 'Teamwork', 'Patience'], 'enthusiasm': 2, 'job fit': 2, 'communication': 3}
+feedback = {
+    "feedback": "The candidate struggled to provide concrete examples of successful upselling and handling difficult customer situations. They also admitted to having difficulty staying organized and engaging with customers proactively. The candidate demonstrated a lack of initiative in collaborative tasks and could benefit from improving their patience and understanding with customers.",
+    "recommendation": False,
+    "reason": "The candidate's lack of experience and skills in upselling, customer interaction, and teamwork are concerning for a retail position. They displayed limited enthusiasm for the job and a relatively low job fit score, indicating a potential mismatch for the role.",
+    "top relevant skills": ["Politeness", "Availability"],
+    "potential skill gaps": ["Upselling", "Customer Service", "Organization", "Teamwork", "Patience"],
+    "enthusiasm": 2,
+    "job fit": 2,
+    "communication": 3,
+}
+
+
 def results_page():
     st.divider()
     st.markdown("## Interview Results ⚡")
     st.write("### Feedback")
-    st.write(feedback['feedback'])
+    st.write(feedback["feedback"])
     st.write("### Recommendation")
-    st.write(feedback['recommendation'])
+    st.write(feedback["recommendation"])
     st.write("### Reason")
-    st.write(feedback['reason'])
+    st.write(feedback["reason"])
     st.write("### Top Relevant Skills")
-    st.write(feedback['top relevant skills'])
+    st.write(feedback["top relevant skills"])
     st.write("### Potential Skill Gaps")
-    st.write(feedback['potential skill gaps'])
+    st.write(feedback["potential skill gaps"])
+
 
 def main():
     if st.session_state.page == "configure_page":
